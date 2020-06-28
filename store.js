@@ -20,10 +20,8 @@ const rootReducer = (state, action) => {
   return appReducer(state, action);
 };
 
-const configureStore = () => {
-  return createStore(
-    rootReducer
-    // composeWithDevTools(applyMiddleware(...middleware))
-  );
-};
-export default configureStore;
+export default createStore(
+  rootReducer,
+
+  composeWithDevTools(applyMiddleware(...middleware))
+);
