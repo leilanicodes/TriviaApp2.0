@@ -17,21 +17,17 @@ export class Questions extends React.Component {
     super();
     this.state = {
       numberCorrect: 0,
-      correct: false,
-      incorrect: false,
       correctIds: [],
+      incorrectIds: [],
     };
     this.handleChoice = this.handleChoice.bind(this);
   }
 
   handleChoice(choice, result, id) {
     // let button = document.getElementById(buttonId);
-
+    event.preventDefault();
     if (id && choice === result.correct_answer) {
       this.setState({ numberCorrect: this.state.numberCorrect + 1 });
-      this.setState({
-        correct: true,
-      });
 
       this.setState({ correctIds: [...this.state.correctIds, id] });
 
@@ -39,7 +35,7 @@ export class Questions extends React.Component {
       //   button.style.color = 'white';
       //   button.disabled = true;
     } else {
-      this.setState({ incorrect: true });
+      this.setState({ incorrectIds: [...this.state.incorrectIds, id] });
     }
     //  else {
     //   button.style.backgroundColor = 'red';
@@ -97,6 +93,10 @@ export class Questions extends React.Component {
                             questionIndex + '-' + buttonIndex
                           )
                             ? styles.correct
+                            : this.state.incorrectIds.includes(
+                                questionIndex + '-' + buttonIndex
+                              )
+                            ? styles.incorrect
                             : styles.choice
                         }
                         // id={questionIndex + '-' + buttonIndex}
@@ -172,5 +172,7 @@ const styles = StyleSheet.create({
   },
   incorrect: {
     backgroundColor: 'red',
+    width: 250,
+    margin: 3,
   },
 });
