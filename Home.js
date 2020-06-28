@@ -3,7 +3,7 @@ import { StyleSheet, Text, View, ImageBackground } from 'react-native';
 import { connect } from 'react-redux';
 import { fetchQuestions } from './redux/trivia';
 import { Button } from 'react-native-elements';
-import Questions from './Questions';
+
 import { StackNavigator } from 'react-navigation';
 
 class Home extends React.Component {
