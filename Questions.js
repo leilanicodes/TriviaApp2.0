@@ -18,55 +18,48 @@ export class Questions extends React.Component {
     this.state = {
       numberCorrect: 0,
       correctIds: [],
-      incorrectIds: [],
+      incorrectSelections: [],
+      correctSelections: [],
+      disabledChoices: [],
     };
     this.handleChoice = this.handleChoice.bind(this);
   }
 
-  handleChoice(choice, result, id) {
-    // let button = document.getElementById(buttonId);
+  handleChoice(choice, result, id, questionIndex) {
     event.preventDefault();
+
     if (id && choice === result.correct_answer) {
       this.setState({ numberCorrect: this.state.numberCorrect + 1 });
-
       this.setState({ correctIds: [...this.state.correctIds, id] });
-
-      //   button.style.backgroundColor = 'green';
-      //   button.style.color = 'white';
-      //   button.disabled = true;
+      this.setState({
+        correctSelections: [...this.state.correctSelections, id],
+      });
     } else {
-      this.setState({ incorrectIds: [...this.state.incorrectIds, id] });
+      this.setState({
+        incorrectSelections: [...this.state.incorrectSelections, id],
+      });
     }
-    //  else {
-    //   button.style.backgroundColor = 'red';
-    // }
-    // for (let i = 0; i < 4; i++) {
-    //   let id = buttonId[0] + '-' + i;
-    //   let element = document.getElementById(id);
-
-    //   this.markCorrectAnswer(element, result.correct_answer);
-    //   element.disabled = true;
-    // }
+    this.setState({
+      disabledChoices: [...this.state.disabledChoices, questionIndex],
+    });
   }
 
-  //   markCorrectAnswer(element, correctAnswer) {
-  //     if (
-  //       element.innerHTML === correctAnswer ||
-  //       element.getAttribute('choice') === correctAnswer
-  //     ) {
-  //       element.style.backgroundColor = 'green';
-  //     }
-  //   }
+  checkStyle(id, correctAnswer, choice, questionIndex) {
+    if (this.state.disabledChoices.includes(questionIndex)) {
+      if (correctAnswer === choice) {
+        return styles.correct;
+      } else if (this.state.incorrectSelections.includes(id)) {
+        return styles.incorrect;
+      }
+    }
+    return styles.choice;
+  }
 
   render() {
     const results = this.props.results.results;
 
     return (
       <View style={styles.container}>
-        {/* <nav>
-          <NavLink to="/">Back to Categories</NavLink>
-        </nav> */}
-
         <View style={styles.questionsWrapper} key={results}>
           {results &&
             results.length &&
@@ -87,24 +80,24 @@ export class Questions extends React.Component {
                   {result.shuffledAnswers.map((choice, buttonIndex) => (
                     <View key={choice.incorrect_answers}>
                       <TouchableHighlight
-                        activeOpacity={1}
-                        style={
-                          this.state.correctIds.includes(
-                            questionIndex + '-' + buttonIndex
-                          )
-                            ? styles.correct
-                            : this.state.incorrectIds.includes(
-                                questionIndex + '-' + buttonIndex
-                              )
-                            ? styles.incorrect
-                            : styles.choice
+                        disabled={
+                          this.state.disabledChoices.includes(questionIndex)
+                            ? true
+                            : false
                         }
-                        // id={questionIndex + '-' + buttonIndex}
+                        activeOpacity={1}
+                        style={this.checkStyle(
+                          questionIndex + '-' + buttonIndex,
+                          result.correct_answer,
+                          choice,
+                          questionIndex
+                        )}
                         onPress={() => {
                           this.handleChoice(
                             choice,
                             result,
-                            questionIndex + '-' + buttonIndex
+                            questionIndex + '-' + buttonIndex,
+                            questionIndex
                           );
                         }}
                       >
@@ -142,6 +135,9 @@ const mapState = (reduxState) => {
 export default connect(mapState)(Questions);
 
 const styles = StyleSheet.create({
+  container: {
+    backgroundColor: '#ffcccb',
+  },
   choiceForm: {
     display: 'flex',
     alignItems: 'center',
@@ -162,7 +158,10 @@ const styles = StyleSheet.create({
   choice: {
     width: 250,
     margin: 3,
-    backgroundColor: 'pink',
+    backgroundColor: '#f79b9b',
+    shadowOffset: { width: 1, height: 1 },
+    shadowColor: 'black',
+    shadowOpacity: 1.0,
   },
   correct: {
     backgroundColor: 'green',
