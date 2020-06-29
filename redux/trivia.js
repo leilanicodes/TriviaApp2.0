@@ -29,6 +29,9 @@ export const fetchQuestions = (category) => {
       games: 15,
       tv: 14,
       animals: 27,
+      music: 12,
+      books: 10,
+      sports: 21,
     };
 
     let categoryId = categoryIdsObject[category];

@@ -1,36 +1,35 @@
 import React from 'react';
 import { connect } from 'react-redux';
-import { withRouter, NavLink } from 'react-router-dom';
 import {
   StyleSheet,
   Text,
   View,
-  ImageBackground,
   TouchableHighlight,
+  Button,
+  TouchableOpacity,
+  ScrollView,
+  Alert,
 } from 'react-native';
-import { Button } from 'react-native-elements';
-import { greaterThan } from 'react-native-reanimated';
-// import ScoreModal from './Modal';
+import ScoreModal from './Modal';
 
 export class Questions extends React.Component {
   constructor() {
     super();
     this.state = {
       numberCorrect: 0,
-      correctIds: [],
       incorrectSelections: [],
       correctSelections: [],
-      disabledChoices: [],
+      answeredQuestions: [],
     };
     this.handleChoice = this.handleChoice.bind(this);
   }
 
   handleChoice(choice, result, id, questionIndex) {
-    event.preventDefault();
+    // event.preventDefault();
 
     if (id && choice === result.correct_answer) {
       this.setState({ numberCorrect: this.state.numberCorrect + 1 });
-      this.setState({ correctIds: [...this.state.correctIds, id] });
+
       this.setState({
         correctSelections: [...this.state.correctSelections, id],
       });
@@ -39,13 +38,14 @@ export class Questions extends React.Component {
         incorrectSelections: [...this.state.incorrectSelections, id],
       });
     }
+
     this.setState({
-      disabledChoices: [...this.state.disabledChoices, questionIndex],
+      answeredQuestions: [...this.state.answeredQuestions, questionIndex],
     });
   }
 
   checkStyle(id, correctAnswer, choice, questionIndex) {
-    if (this.state.disabledChoices.includes(questionIndex)) {
+    if (this.state.answeredQuestions.includes(questionIndex)) {
       if (correctAnswer === choice) {
         return styles.correct;
       } else if (this.state.incorrectSelections.includes(id)) {
@@ -57,6 +57,7 @@ export class Questions extends React.Component {
 
   render() {
     const results = this.props.results.results;
+    const score = this.state.numberCorrect * 10;
 
     return (
       <View style={styles.container}>
@@ -65,7 +66,8 @@ export class Questions extends React.Component {
             results.length &&
             results.map((result, questionIndex) => (
               <View style={styles.question} key={result.question}>
-                <Text>
+                {/* <ScrollView vertical={true} style={{ flex: 1 }}> */}
+                <Text style={styles.text}>
                   {questionIndex +
                     1 +
                     '. ' +
@@ -81,7 +83,7 @@ export class Questions extends React.Component {
                     <View key={choice.incorrect_answers}>
                       <TouchableHighlight
                         disabled={
-                          this.state.disabledChoices.includes(questionIndex)
+                          this.state.answeredQuestions.includes(questionIndex)
                             ? true
                             : false
                         }
@@ -101,7 +103,7 @@ export class Questions extends React.Component {
                           );
                         }}
                       >
-                        <Text>
+                        <Text style={styles.text}>
                           {choice
                             .replace(/&quot;/g, '"')
                             .replace(/&#039;/g, "'")
@@ -114,13 +116,14 @@ export class Questions extends React.Component {
                     </View>
                   ))}
                 </View>
+                {/* </ScrollView> */}
               </View>
             ))}
-          {/* <ScoreModal
-            buttonLabel="Check Your Score"
-            score={this.state.numberCorrect * 10}
-          /> */}
         </View>
+        <Button
+          title="Check Your Score"
+          onPress={() => alert(`You got a ${score}%`)}
+        />
       </View>
     );
   }
@@ -146,6 +149,7 @@ const styles = StyleSheet.create({
   questionsWrapper: {
     display: 'flex',
     alignItems: 'center',
+    justifyContent: 'center',
     flexDirection: 'column',
   },
   question: {
@@ -156,22 +160,30 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
   },
   choice: {
-    width: 250,
+    width: 300,
+    height: 20,
     margin: 3,
     backgroundColor: '#f79b9b',
     shadowOffset: { width: 1, height: 1 },
     shadowColor: 'black',
     shadowOpacity: 1.0,
+    borderRadius: 2,
+  },
+  text: {
+    display: 'flex',
+    justifyContent: 'center',
+    alignItems: 'center',
+    fontSize: 15,
   },
   correct: {
     backgroundColor: 'green',
     color: 'white',
-    width: 250,
+    width: 300,
     margin: 3,
   },
   incorrect: {
     backgroundColor: 'red',
-    width: 250,
+    width: 300,
     margin: 3,
   },
 });

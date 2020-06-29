@@ -105,6 +105,45 @@ class Home extends React.Component {
               onPress={() => this.handlePress('tv')}
             />
           </View>
+          <View style={styles.button}>
+            <Button
+              raised
+              title="Music"
+              titleStyle={{ fontFamily: 'Futura', fontStyle: 'italic' }}
+              buttonStyle={{
+                backgroundColor: '#6A5ACD',
+                width: 120,
+              }}
+              onPress={() => this.handlePress('music')}
+            />
+            <Button
+              raised
+              title="Books"
+              titleStyle={{
+                fontFamily: 'Futura',
+                fontStyle: 'italic',
+                color: 'black',
+              }}
+              buttonStyle={{
+                backgroundColor: '#FF7F50',
+                width: 120,
+              }}
+              onPress={() => this.handlePress('books')}
+            />
+            <Button
+              raised
+              title="Sports"
+              titleStyle={{
+                fontFamily: 'Futura',
+                fontStyle: 'italic',
+              }}
+              buttonStyle={{
+                backgroundColor: '#8B0000',
+                width: 120,
+              }}
+              onPress={() => this.handlePress('sports')}
+            />
+          </View>
         </View>
       </View>
     );

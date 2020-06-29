@@ -1,40 +1,69 @@
-import React, { useState } from 'react';
-import { Button, Modal, ModalHeader, ModalBody, ModalFooter } from 'reactstrap';
-import { NavLink } from 'react-router-dom';
+import React, { Component } from 'react';
+import { Button, Text, View } from 'react-native';
+import Modal from 'react-native-modal';
 
-const ScoreModal = (props) => {
-  const { buttonLabel, className, score } = props;
+// export default class ScoreModal extends Component {
+//   state = {
+//     isModalVisible: false,
+//   };
 
-  const [modal, setModal] = useState(false);
+//   toggleModal = () => {
+//     this.setState({ isModalVisible: !this.state.isModalVisible });
+//   };
 
-  const toggle = () => setModal(!modal);
+//   render() {
+//     const { score } = this.props;
+//     return (
+//       <View style={{ flex: 1 }}>
+//         <Button title="Check Your Score" onPress={this.toggleModal} />
+//         <Modal isVisible={this.state.isModalVisible}>
+//           <View style={{ flex: 1 }}>
+//             <Text>
+//               {score < 60
+//                 ? `Awww shucks, you got a ${
+//                     score || 0
+//                   }%. Better luck next time!`
+//                 : `You've got some mad trivia skills! You got a ${score}%`}
+//             </Text>
+//             <Button title="Close" onPress={this.toggleModal} />
+//           </View>
+//         </Modal>
+//       </View>
+//     );
+//   }
+// }
 
-  return (
-    <div>
-      <Button color="info" onClick={toggle}>
-        {buttonLabel}
-      </Button>
-      <Modal isOpen={modal} toggle={toggle} className={className}>
-        <ModalHeader toggle={toggle}>Trivia Score</ModalHeader>
-        <ModalBody>
-          {score < 60
-            ? `Awww shucks, you got a ${score || 0}%. Better luck next time!`
-            : `You've got some mad trivia skills! You got a ${score}%`}
-          .{' '}
-        </ModalBody>
-        <ModalFooter>
-          <NavLink to="/">
-            <Button color="primary" onClick={toggle}>
-              Back to Categories
-            </Button>
-          </NavLink>
-          <Button color="secondary" onClick={toggle}>
-            Cancel
-          </Button>
-        </ModalFooter>
-      </Modal>
-    </div>
-  );
-};
+// const ScoreModal = (props) => {
+//   const { buttonLabel, className, score } = props;
 
-export default ScoreModal;
+//   const [modal, setModal] = useState(false);
+
+//   const toggle = () => setModal(!modal);
+
+//   return (
+//     <div>
+//       <Button color="info" onClick={toggle}>
+//         {buttonLabel}
+//       </Button>
+//       <Modal isOpen={modal} toggle={toggle} className={className}>
+//         <ModalHeader toggle={toggle}>Trivia Score</ModalHeader>
+//         <ModalBody>
+//           {score < 60
+//             ? `Awww shucks, you got a ${score || 0}%. Better luck next time!`
+//             : `You've got some mad trivia skills! You got a ${score}%`}
+//           .{' '}
+//         </ModalBody>
+//         <ModalFooter>
+//           <NavLink to="/">
+//             <Button color="primary" onClick={toggle}>
+//               Back to Categories
+//             </Button>
+//           </NavLink>
+//           <Button color="secondary" onClick={toggle}>
+//             Cancel
+//           </Button>
+//         </ModalFooter>
+//       </Modal>
+//     </div>
+//   );
+// };
