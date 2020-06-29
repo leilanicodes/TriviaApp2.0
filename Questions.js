@@ -106,6 +106,7 @@ export class Questions extends React.Component {
                       {result.shuffledAnswers.map((choice, buttonIndex) => (
                         <View key={choice.incorrect_answers}>
                           <TouchableHighlight
+                            activeOpacity={1}
                             key={choice + 'highlight'}
                             disabled={
                               this.state.answeredQuestions.includes(
@@ -114,7 +115,8 @@ export class Questions extends React.Component {
                                 ? true
                                 : false
                             }
-                            activeOpacity={1}
+                            underlayColor="transparent"
+                            activeOpacity={3}
                             style={this.checkStyle(
                               questionIndex + '-' + buttonIndex,
                               result.correct_answer,
@@ -155,6 +157,8 @@ export class Questions extends React.Component {
                   </View>
                 ))}
               <TouchableHighlight
+                underlayColor="#17a2b8"
+                activeOpacity={1}
                 style={styles.alert}
                 onPress={() =>
                   // Alert.alert(
@@ -224,7 +228,7 @@ const styles = StyleSheet.create({
   choice: {
     width: 300,
     height: 40,
-    margin: 4,
+    margin: 3,
     display: 'flex',
     alignItems: 'center',
     justifyContent: 'center',
@@ -279,7 +283,7 @@ const styles = StyleSheet.create({
   correct: {
     backgroundColor: 'green',
     width: 300,
-    height: 35,
+    height: 40,
     margin: 3,
     display: 'flex',
     alignItems: 'center',
