@@ -18,6 +18,7 @@
     "react-native-elements": "^2.0.2",
     "react-native-fusioncharts": "^4.1.2",
     "react-native-gesture-handler": "~1.6.0",
+    "react-native-loading-view": "^1.0.1",
     "react-native-modal": "^11.5.6",
     "react-native-offline": "^5.7.0",
     "react-native-reanimated": "^1.9.0",

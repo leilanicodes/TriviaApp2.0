@@ -1,10 +1,8 @@
 import React from 'react';
-import { StyleSheet, Text, View, ImageBackground } from 'react-native';
+import { StyleSheet, Text, View } from 'react-native';
 import { connect } from 'react-redux';
 import { fetchQuestions } from './redux/trivia';
 import { Button } from 'react-native-elements';
-
-import { StackNavigator } from 'react-navigation';
 
 class Home extends React.Component {
   constructor() {
@@ -13,7 +11,6 @@ class Home extends React.Component {
   }
 
   handlePress(category) {
-    // this.props.getQuestions(event.target.value);
     this.props.getQuestions(category);
 
     const { navigate } = this.props.navigation;
@@ -25,12 +22,6 @@ class Home extends React.Component {
   };
 
   render() {
-    // const image = {
-    //   uri:
-    //     'https://static.vecteezy.com/system/resources/previews/000/129/108/non_2x/trivia-papper-background-illustration-vector.jpg',
-    // };
-
-    const { navigate } = this.props.navigation;
     return (
       <View style={styles.container}>
         <Text style={styles.text}>Ready to test your trivia skills? </Text>
@@ -45,7 +36,6 @@ class Home extends React.Component {
                 backgroundColor: '#28a745',
                 width: 120,
               }}
-              // onPress={this.handlePress()}
               onPress={() => this.handlePress('geography')}
             />
             <Button
@@ -160,14 +150,8 @@ const mapDispatch = (dispatch) => ({
 });
 
 export default connect(mapState, mapDispatch)(Home);
-// export default App;
 
 const styles = StyleSheet.create({
-  // image: {
-  //   resizeMode: 'cover',
-  //   justifyContent: 'center',
-  // },
-
   container: {
     flex: 1,
     backgroundColor: '#ffcccb',
@@ -185,7 +169,7 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
   },
   text: {
-    fontSize: 18,
+    fontSize: 20,
     margin: 3,
     fontStyle: 'italic',
     fontFamily: 'Futura',

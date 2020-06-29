@@ -1,7 +1,7 @@
 {
   "expo": {
     "name": "TriviaApp_2.0",
-    "slug": "TriviaApp_2.0",
+    "slug": "trivia-app-2",
     "platforms": [
       "ios",
       "android",
@@ -23,6 +23,7 @@
     ],
     "ios": {
       "supportsTablet": true
-    }
+    },
+    "description": ""
   }
 }
