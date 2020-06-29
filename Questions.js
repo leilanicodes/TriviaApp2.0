@@ -76,17 +76,20 @@ export class Questions extends React.Component {
     return (
       <LoadingView loading={this.state.loading}>
         <View style={styles.container}>
-          <View style={styles.questionsWrapper} key={results}>
-            <ScrollView
-              contentContainerStyle={styles.scrollview}
-              scrollEnabled={scrollEnabled}
-              onContentSizeChange={this.onContentSizeChange}
-            >
+          <ScrollView
+            contentContainerStyle={styles.scrollview}
+            scrollEnabled={scrollEnabled}
+            onContentSizeChange={this.onContentSizeChange}
+          >
+            <View style={styles.questionsWrapper} key={results}>
               {results &&
                 results.length &&
                 results.map((result, questionIndex) => (
                   <View style={styles.question} key={result.question}>
-                    <Text style={styles.text}>
+                    <Text
+                      style={styles.questionText}
+                      key={result.question + 'text'}
+                    >
                       {questionIndex +
                         1 +
                         '. ' +
@@ -97,10 +100,14 @@ export class Questions extends React.Component {
                           .replace(/&gt;/g, '>')}
                     </Text>
 
-                    <View style={styles.choiceForm}>
+                    <View
+                      style={styles.choiceForm}
+                      key={result.question + 'choice'}
+                    >
                       {result.shuffledAnswers.map((choice, buttonIndex) => (
                         <View key={choice.incorrect_answers}>
                           <TouchableHighlight
+                            key={choice + 'highlight'}
                             disabled={
                               this.state.answeredQuestions.includes(
                                 questionIndex
@@ -124,7 +131,16 @@ export class Questions extends React.Component {
                               );
                             }}
                           >
-                            <Text style={styles.text}>
+                            <Text
+                              style={
+                                this.state.answeredQuestions.includes(
+                                  questionIndex
+                                ) && choice === result.correct_answer
+                                  ? styles.correctText
+                                  : styles.text
+                              }
+                              key={choice + 'text'}
+                            >
                               {choice
                                 .replace(/&quot;/g, '"')
                                 .replace(/&#039;/g, "'")
@@ -139,8 +155,8 @@ export class Questions extends React.Component {
                     </View>
                   </View>
                 ))}
-            </ScrollView>
-          </View>
+            </View>
+          </ScrollView>
           <Button
             title="Check Your Score"
             onPress={() => alert(`You got a ${score}%`)}
@@ -173,6 +189,7 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     justifyContent: 'center',
     flexDirection: 'column',
+    margin: 16,
   },
   question: {
     flex: 1,
@@ -201,15 +218,44 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     fontSize: 15,
   },
+  correctText: {
+    display: 'flex',
+    justifyContent: 'center',
+    alignItems: 'center',
+    fontSize: 15,
+    color: 'white',
+  },
+  questionText: {
+    display: 'flex',
+    justifyContent: 'center',
+    alignItems: 'center',
+    fontSize: 15,
+    margin: 20,
+  },
   correct: {
     backgroundColor: 'green',
-    color: 'white',
     width: 300,
+    height: 40,
     margin: 3,
+    display: 'flex',
+    alignItems: 'center',
+    justifyContent: 'center',
+    shadowOffset: { width: 1, height: 1 },
+    shadowColor: 'black',
+    shadowOpacity: 0.6,
+    borderRadius: 2,
   },
   incorrect: {
     backgroundColor: 'red',
     width: 300,
+    height: 40,
     margin: 3,
+    display: 'flex',
+    alignItems: 'center',
+    justifyContent: 'center',
+    shadowOffset: { width: 1, height: 1 },
+    shadowColor: 'black',
+    shadowOpacity: 0.6,
+    borderRadius: 2,
   },
 });
