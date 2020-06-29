@@ -5,8 +5,6 @@ import {
   Text,
   View,
   TouchableHighlight,
-  Button,
-  TouchableOpacity,
   ScrollView,
   Alert,
   Dimensions,
@@ -75,11 +73,12 @@ export class Questions extends React.Component {
 
     return (
       <LoadingView loading={this.state.loading}>
-        <View style={styles.container}>
+        <View style={styles.container} key={score}>
           <ScrollView
             contentContainerStyle={styles.scrollview}
             scrollEnabled={scrollEnabled}
             onContentSizeChange={this.onContentSizeChange}
+            key={scrollEnabled + 'scroll'}
           >
             <View style={styles.questionsWrapper} key={results}>
               {results &&
@@ -155,12 +154,35 @@ export class Questions extends React.Component {
                     </View>
                   </View>
                 ))}
+              <TouchableHighlight
+                style={styles.alert}
+                onPress={() =>
+                  // Alert.alert(
+                  //   score < 60
+                  //     ? `Awww shucks, you got a ${
+                  //         score || 0
+                  //       }%. Better luck next time!`
+                  //     : score < 80
+                  //     ? `You got a ${score}%. You're pretty good at this!`
+                  //     : `You've got some mad trivia skills! You got a ${score}%.`
+                  // )
+                  // ||
+                  // *alert below works on computer and alert above works on phone but not computer
+                  alert(
+                    score < 60
+                      ? `Awww shucks, you got a ${
+                          score || 0
+                        }%. Better luck next time!`
+                      : score < 80
+                      ? `You got a ${score}%. You're pretty good at this!`
+                      : `You've got some mad trivia skills! You got a ${score}%.`
+                  )
+                }
+              >
+                <Text style={styles.alertText}>Check Your Score</Text>
+              </TouchableHighlight>
             </View>
           </ScrollView>
-          <Button
-            title="Check Your Score"
-            onPress={() => alert(`You got a ${score}%`)}
-          />
         </View>
       </LoadingView>
     );
@@ -202,7 +224,7 @@ const styles = StyleSheet.create({
   choice: {
     width: 300,
     height: 40,
-    margin: 3,
+    margin: 4,
     display: 'flex',
     alignItems: 'center',
     justifyContent: 'center',
@@ -211,6 +233,28 @@ const styles = StyleSheet.create({
     shadowColor: 'black',
     shadowOpacity: 0.6,
     borderRadius: 2,
+  },
+  alert: {
+    width: 140,
+    height: 40,
+    margin: 5,
+    padding: 5,
+    display: 'flex',
+    alignItems: 'center',
+    justifyContent: 'center',
+    backgroundColor: '#17a2b8',
+    shadowOffset: { width: 1, height: 1 },
+    shadowColor: 'black',
+    shadowOpacity: 0.6,
+    borderRadius: 2,
+  },
+  alertText: {
+    color: '#FFFFF0',
+    display: 'flex',
+    justifyContent: 'center',
+    alignItems: 'center',
+    fontSize: 15,
+    fontFamily: 'Futura',
   },
   text: {
     display: 'flex',
@@ -235,7 +279,7 @@ const styles = StyleSheet.create({
   correct: {
     backgroundColor: 'green',
     width: 300,
-    height: 40,
+    height: 35,
     margin: 3,
     display: 'flex',
     alignItems: 'center',
@@ -243,7 +287,7 @@ const styles = StyleSheet.create({
     shadowOffset: { width: 1, height: 1 },
     shadowColor: 'black',
     shadowOpacity: 0.6,
-    borderRadius: 2,
+    borderRadius: 4,
   },
   incorrect: {
     backgroundColor: 'red',
