@@ -6,7 +6,6 @@ import {
   View,
   TouchableHighlight,
   ScrollView,
-  Alert,
   Dimensions,
 } from 'react-native';
 import LoadingView from 'react-native-loading-view';
@@ -35,24 +34,28 @@ export class Questions extends React.Component {
   };
 
   handleChoice(choice, result, id, questionIndex) {
+    //checks if the choice selected equals the correct answer
     if (id && choice === result.correct_answer) {
+      //adds one to the number of correct answers
       this.setState({ numberCorrect: this.state.numberCorrect + 1 });
-
+      // pushes the correct selection into the correctSelections array
       this.setState({
         correctSelections: [...this.state.correctSelections, id],
       });
     } else {
+      //pushes the incorrect selections into the incorrectSelections array
       this.setState({
         incorrectSelections: [...this.state.incorrectSelections, id],
       });
     }
-
+    //pushes the answered questions into the answeredQuestions array
     this.setState({
       answeredQuestions: [...this.state.answeredQuestions, questionIndex],
     });
   }
 
   checkStyle(id, correctAnswer, choice, questionIndex) {
+    // this function allows changing of the background color to green or red based on whether or not the correct answer is selected
     if (this.state.answeredQuestions.includes(questionIndex)) {
       if (correctAnswer === choice) {
         return styles.correct;
@@ -74,6 +77,7 @@ export class Questions extends React.Component {
     return (
       <LoadingView loading={this.state.loading}>
         <View style={styles.container} key={score}>
+          {/* //enables scrolling on mobile phone */}
           <ScrollView
             contentContainerStyle={styles.scrollview}
             scrollEnabled={scrollEnabled}
@@ -81,6 +85,7 @@ export class Questions extends React.Component {
             key={scrollEnabled + 'scroll'}
           >
             <View style={styles.questionsWrapper} key={results}>
+              {/* Mapped through results array to display the questions  */}
               {results &&
                 results.length &&
                 results.map((result, questionIndex) => (
@@ -103,11 +108,13 @@ export class Questions extends React.Component {
                       style={styles.choiceForm}
                       key={result.question + 'choice'}
                     >
+                      {/* maps through the shuffled answers to display the answers */}
                       {result.shuffledAnswers.map((choice, buttonIndex) => (
                         <View key={choice.incorrect_answers}>
                           <TouchableHighlight
                             activeOpacity={1}
                             key={choice + 'highlight'}
+                            // if the answered questions includes the question at the specific question index the touchableHighlight will be disabled
                             disabled={
                               this.state.answeredQuestions.includes(
                                 questionIndex
@@ -117,6 +124,7 @@ export class Questions extends React.Component {
                             }
                             underlayColor="transparent"
                             activeOpacity={3}
+                            // checks the style where the answer selections are correct or incorrect at the specific questionIndex
                             style={this.checkStyle(
                               questionIndex + '-' + buttonIndex,
                               result.correct_answer,
@@ -124,6 +132,7 @@ export class Questions extends React.Component {
                               questionIndex
                             )}
                             onPress={() => {
+                              //handleChoice is invoked here to determine what the result of the answer given will be
                               this.handleChoice(
                                 choice,
                                 result,
@@ -133,6 +142,7 @@ export class Questions extends React.Component {
                             }}
                           >
                             <Text
+                              //color of text is changed to white based on whether or not the selected answer is correct
                               style={
                                 this.state.answeredQuestions.includes(
                                   questionIndex
@@ -142,6 +152,7 @@ export class Questions extends React.Component {
                               }
                               key={choice + 'text'}
                             >
+                              {/* displays answer choices and replaces some of the html entities */}
                               {choice
                                 .replace(/&quot;/g, '"')
                                 .replace(/&#039;/g, "'")
@@ -161,17 +172,7 @@ export class Questions extends React.Component {
                 activeOpacity={1}
                 style={styles.alert}
                 onPress={() =>
-                  // Alert.alert(
-                  //   score < 60
-                  //     ? `Awww shucks, you got a ${
-                  //         score || 0
-                  //       }%. Better luck next time!`
-                  //     : score < 80
-                  //     ? `You got a ${score}%. You're pretty good at this!`
-                  //     : `You've got some mad trivia skills! You got a ${score}%.`
-                  // )
-                  // ||
-                  // *alert below works on computer and alert above works on phone but not computer
+                  //shows your total score on press of the check your score button, along with a short message
                   alert(
                     score < 60
                       ? `Awww shucks, you got a ${
@@ -193,6 +194,7 @@ export class Questions extends React.Component {
   }
 }
 
+// the results array is connected through the redux store so that we can map through it and grab necessary data
 const mapState = (reduxState) => {
   return {
     results: reduxState.results,
