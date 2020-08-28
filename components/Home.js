@@ -25,7 +25,7 @@ class Home extends React.Component {
     return (
       <SafeAreaView style={styles.container}>
         <Text style={styles.text}>Ready to test your trivia skills? </Text>
-        <Text style={styles.text}>Select a category </Text>
+        <Text style={styles.text}>Select a category to begin.</Text>
         <View style={styles.buttonWrapper}>
           <View style={styles.button}>
             <Button
