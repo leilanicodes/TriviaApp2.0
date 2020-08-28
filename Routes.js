@@ -1,7 +1,7 @@
 import { createStackNavigator } from 'react-navigation-stack';
 import { createAppContainer } from 'react-navigation';
-import Home from './Home';
-import Questions from './Questions';
+import Home from './components/Home';
+import Questions from './components/Questions';
 
 const Routes = createStackNavigator(
   {

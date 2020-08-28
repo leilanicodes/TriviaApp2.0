@@ -7,6 +7,7 @@ import {
   TouchableHighlight,
   ScrollView,
   Dimensions,
+  SafeAreaView,
 } from 'react-native';
 import LoadingView from 'react-native-loading-view';
 
@@ -76,7 +77,7 @@ export class Questions extends React.Component {
 
     return (
       <LoadingView loading={this.state.loading}>
-        <View style={styles.container} key={score}>
+        <SafeAreaView style={styles.container} key={score}>
           {/* //enables scrolling on mobile phone */}
           <ScrollView
             contentContainerStyle={styles.scrollview}
@@ -188,7 +189,7 @@ export class Questions extends React.Component {
               </TouchableHighlight>
             </View>
           </ScrollView>
-        </View>
+        </SafeAreaView>
       </LoadingView>
     );
   }
